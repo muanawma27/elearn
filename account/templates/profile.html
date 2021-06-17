@@ -1,0 +1,599 @@
+{% extends 'base.html' %} {% block content %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+<style>
+  #hobbycard {
+    border-color: #461e52;
+    color: #461e52;
+  }
+  #hobbycardheader {
+    background-color: rgba(70, 30, 82, 0.4);
+    color: #461e52;
+  }
+
+  #professioncard {
+    border-color: #dd517f;
+    color: #dd517f;
+  }
+  #professioncardheader {
+    color: #dd517f;
+    background-color: rgba(221, 81, 127, 0.4);
+  }
+
+  #interestcard {
+    border-color: #556dc8;
+    color: #556dc8;
+  }
+  #interestcardheader {
+    color: #556dc8;
+    background-color: rgba(85, 109, 200, 0.4);
+  }
+
+  .profilephoto {
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    {% comment %} border: 1px solid grey; {% endcomment %}
+  }
+
+
+ 
+.grid-container{
+{% comment %} display: grid;
+  grid-column-gap: 2px;
+  grid-template-columns: 50% 30%;
+  padding: 5px; {% endcomment %}
+
+
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  {% comment %} padding:1rem; {% endcomment %}
+  justify-content:space-around;
+  align-items:space-around;
+  align-content:stretch;
+  {% comment %} justify-content:center; {% endcomment %}
+  }
+
+  .grid-item {
+      width:40%;
+  background-color: rgba(255, 255, 255, 0.8);
+  {% comment %} border: 1px solid rgba(0, 0, 0, 0.8); {% endcomment %}
+  padding: 5px;
+  font-size: 14px;
+  {% comment %} text-align: center; {% endcomment %}
+}
+.ok{
+    margin-top:1rem;
+    
+}
+
+</style>
+<div class="container" style="padding-top: 2rem;margin:4rem">
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">{{ message }}</div>
+    {% endfor %}
+{% endif %}
+
+
+  <div class="f" style="display:flex;flex-direction:row">
+  
+
+    <div class="profile" style="width: 30%;display:flex;align-items:center;box-shadow:1px 1px 5px rgba(0,0,0,0.2);border-radius:10px;flex-direction:column;padding:4rem">
+      <img src="{{profile.profile.profilephoto.url}}" class="profilephoto" />
+<br>
+      <strong>{{profile.first_name}} {{profile.last_name}}</strong>
+      <p>Age:{{profile.profile.age}}</p>
+    <p>Gender:
+    {% if profile.profile.gender == '1' %}
+    Male
+    {% else %}
+    Female
+    {% endif %}
+    </p>
+      <p>Address: {{profile.profile.address}}</p>
+    </div>
+
+    <div class="skillsets" style="width:60%;margin:0rem 4rem;">
+    
+
+      
+   
+    <h4 style="text-align:center;padding:1rem">Skillsets</h4>
+    <hr>
+
+    <div class="row" style="margin-bottom: 4rem">
+      <div class="col my-1">
+        <div class="card" id="professioncard">
+          <div class="card-header" id="professioncardheader">Profession</div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              {% for i,j in professions.items %} {% comment %}
+              <strong>{{i}}- {{j}}</strong> {% endcomment %}
+              <strong>{{i}}<span class="px-1"></span>{{j}}% </strong>
+<br>
+<hr>
+              {% endfor %} {% comment %}
+              <p>A well-known quote, contained in a blockquote element.</p>
+              {% endcomment %} {% comment %}
+              <footer class="blockquote-footer">
+                Someone famous in
+                <cite title="Source Title">Source Title</cite>
+              </footer>
+              {% endcomment %}
+            <!-- Button trigger modal -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-block"  data-toggle="modal" data-target="#exampleModal">
+Update
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update ProfessionsInterest</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       {% comment %} starting of forms {% endcomment %}
+
+
+
+<div class="container" style="margin-top:1rem">
+<h4 class="text-center">Update Professions with their respective salary/knowledge value</h4>
+<form method="POST" class="post-form" action="/updateprofessions/">
+  {% csrf_token %}
+
+<div class="grid-container">
+
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <select class="form-control form-select col-5 ok"  name="professsion_ikigai1" id="id_professsion_ikigai1">
+      <option value="" selected>Professsion 1</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="profession_ikigai1_value"
+      value="0"
+      required
+      id="id_profession_ikigai1_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+
+    <select name="professsion_ikigai2"  class="form-control form-select col-5 ok" id="id_professsion_ikigai2">
+      <option value="" selected>Profession 2</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="profession_ikigai2_value"
+      value="0"
+      required
+      id="id_profession_ikigai2_value"
+    />
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="professsion_ikigai3" id="id_professsion_ikigai3" class="form-control ok form-select col-5" >
+      <option value="" selected>Professsion 3</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input class="form-control form-select col-5 ok" 
+      type="number"
+      name="profession_ikigai3_value"
+      value="0"
+      required
+      id="id_profession_ikigai3_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="professsion_ikigai4" id="id_professsion_ikigai4" class="form-control ok form-select col-5" >
+      <option value="" selected>Professsion 4</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="profession_ikigai4_value"
+      value="0"
+      required
+      id="id_profession_ikigai4_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="professsion_ikigai5" id="id_professsion_ikigai5" class="form-control ok form-select col-5" >
+      <option value="" selected>Professsion 5</option>
+
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="profession_ikigai5_value"
+      value="0"
+      required
+      id="id_profession_ikigai5_value"
+    />
+  {% comment %} </div> {% endcomment %}
+  </div>
+  <div class="text-center">
+  <button type="submit" class="save btn btn-primary btn-lg" style="margin:auto">Save</button>
+</div>
+</form>
+</div>
+       {% comment %} eof forms {% endcomment %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="col my-2">
+        <div class="card" id="interestcard" >
+          <div class="card-header" id="interestcardheader">Interest</div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              {% for i,j in interests.items %}
+        <strong>{{i}}<span class="px-1"></span>{{j}}% </strong>
+<br>
+<hr>
+              {% comment %}
+              <div class="flex justify-content-evenly">
+                <span>{{i}}</span><span>{{j}}</span>
+              </div>
+              {% endcomment %} {% endfor %} {% comment %}
+              <p>A well-known quote, contained in a blockquote element.</p>
+              {% endcomment %} {% comment %}
+              <footer class="blockquote-footer">
+                Someone famous in
+                <cite title="Source Title">Source Title</cite>
+              </footer>
+              {% endcomment %}
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-block"  data-toggle="modal" data-target="#exampleModal2">
+Update
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Interest</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       {% comment %} starting of forms {% endcomment %}
+
+
+
+<div class="container" style="margin-top:1rem">
+<h4 class="text-center">Update Your Interests with their respective to their values</h4>
+<form method="POST" class="post-form" action="/updateinterests/">
+  {% csrf_token %}
+
+<div class="grid-container">
+
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <select class="form-control form-select col-5 ok"  name="interest_ikigai1" id="id_interest_ikigai1">
+      <option value="" selected>Interest 1</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="interest_ikigai1_value"
+      value="0"
+      required
+      id="id_interest_ikigai1_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+
+    <select name="interest_ikigai2"  class="form-control form-select col-5 ok" id="id_interest_ikigai2">
+      <option value="" selected>Interest 2</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="interest_ikigai2_value"
+      value="0"
+      required
+      id="id_interest_ikigai2_value"
+    />
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="interest_ikigai3" id="id_interest_ikigai3" class="form-control ok form-select col-5" >
+      <option value="" selected>Interest 3</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input class="form-control form-select col-5 ok" 
+      type="number"
+      name="interest_ikigai3_value"
+      value="0"
+      required
+      id="id_interest_ikigai3_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="interest_ikigai4" id="id_interest_ikigai4" class="form-control ok form-select col-5" >
+      <option value="" selected>Interest 4</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="interest_ikigai4_value"
+      value="0"
+      required
+      id="id_interest_ikigai4_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="interest_ikigai5" id="id_interest_ikigai5" class="form-control ok form-select col-5" >
+      <option value="" selected>Interest 5</option>
+
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="interest_ikigai5_value"
+      value="0"
+      required
+      id="id_interest_ikigai5_value"
+    />
+  {% comment %} </div> {% endcomment %}
+  </div>
+  <div class="text-center">
+  <button type="submit" class="save btn btn-primary btn-lg" style="margin:auto">Save</button>
+</div>
+</form>
+</div>
+       {% comment %} eof forms {% endcomment %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col my-2">
+        <div class="card" id="hobbycard">
+          <div class="card-header" id="hobbycardheader">Hobby</div>
+          <div class="card-body">
+            <blockquote class="blockquote mb-0">
+              {% comment %}
+              <p>A well-known quote, contained in a blockquote element.</p>
+              {% endcomment %} {% comment %}
+              <canvas id="bar-chart" width="col-auto" height="200"></canvas>
+              {% endcomment %} {% for i,j in hobbies.items %} {% comment %}
+              <strong class="flex justify-content-evenly">{{i}}{{j}}</strong>
+              {% endcomment %}
+           <strong>{{i}}<span class="px-1"></span>{{j}}% </strong>
+<br>
+<hr>
+
+              {% endfor %} {% comment %}
+              <footer class="blockquote-footer">
+                Someone famous in
+                <cite title="Source Title">Source Title</cite>
+              </footer>
+              {% endcomment %}
+            {% comment %} </blockquote> {% endcomment %}
+
+            <!-- Button trigger modal -->
+<button type="button" class="btn btn-primary btn-block"  data-toggle="modal" data-target="#exampleModal3">
+Update
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Hobbies</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       {% comment %} starting of forms {% endcomment %}
+
+
+
+<div class="container" style="margin-top:1rem">
+<h4 class="text-center">Update Hobbies with respect to how frequent you do them</h4>
+<form method="POST" class="post-form" action="/updatehobbies/">
+  {% csrf_token %}
+
+<div class="grid-container">
+
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <select class="form-control form-select col-5 ok"  name="hobby_ikigai1" id="id_hobby_ikigai1">
+      <option value="" selected>Hobby 1</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="hobby_ikigai1_value"
+      value="0"
+      required
+      id="id_hobby_ikigai1_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+
+    <select name="hobby_ikigai2"  class="form-control form-select col-5 ok" id="id_hobby_ikigai2">
+      <option value="" selected>Hobby 2</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="hobby_ikigai2_value"
+      value="0"
+      required
+      id="id_hobby_ikigai2_value"
+    />
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="hobby_ikigai3" id="id_phobby_ikigai3" class="form-control ok form-select col-5" >
+      <option value="" selected>Hobby 3</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <input class="form-control form-select col-5 ok" 
+      type="number"
+      name="hobby_ikigai3_value"
+      value="0"
+      required
+      id="id_hobby_ikigai3_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="hobby_ikigai4" id="id_hobby_ikigai4" class="form-control ok form-select col-5" >
+      <option value="" selected>Hobby 4</option>
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="hobby_ikigai4_value"
+      value="0"
+      required
+      id="id_hobby_ikigai4_value"
+    />
+  {% comment %} </div> {% endcomment %}
+   {% comment %} <div class="grid-item"> {% endcomment %}
+    <select name="hobby_ikigai5" id="id_hobby_ikigai5" class="form-control ok form-select col-5" >
+      <option value="" selected>Hobby 5</option>
+
+      {% for i in professionlist %}
+      <option value="{{ forloop.counter }} ">{{i}}</option>
+      {% endfor %}
+    </select>
+  {% comment %} </div> {% endcomment %}
+  {% comment %} <div class="grid-item"> {% endcomment %}
+    <input
+    class="form-control form-select col-5 ok" 
+      type="number"
+      name="hobby_ikigai5_value"
+      value="0"
+      required
+      id="id_hobby_ikigai5_value"
+    />
+  {% comment %} </div> {% endcomment %}
+  </div>
+  <div class="text-center">
+  <button type="submit" class="save btn btn-primary btn-lg" style="margin:autoHobby">Save</button>
+</div>
+</form>
+</div>
+       {% comment %} eof forms {% endcomment %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+          </div>
+        </div>
+        
+        </div>
+        
+      </div>
+      <select
+        class="form-select form-group form-select-lg mb-3 py-1 px-2"
+        aria-label=".form-select-lg example"
+      >
+        <option selected>Select your goal</option>
+        <option value="1">Profession</option>
+        <option value="2">Hobby</option>
+        <option value="3">interest</option>
+      </select>
+      <button class="btn btn-primary">Set</button>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block content %}
+<div class="contai" style="margin: 4rem 4rem 4rem 4rem">
+<img src="{% static '/assets/images/certified2.png' %}" alt="Logo" style="position:absolute;height:auto;width:20%;right:150px;top:400px"/>
+  <div style="line-height: 16px; border: 2px solid grey; padding: 8rem">
+   <div style="display:flex-inline;font-size:30px"> <img src="{% static '/assets/images/favpih.svg' %}" alt="Logo" /> <span style="font-weight:600,font-size:30px">E-shikha</span></div>
+   <p style="margin:4rem"></p>
+    <h3>This is to Certify that</h3>
+    <br />
+    <h2><u>Mr./Mrs. {{user.first_name}} {{user.last_name}}</u></h2>
+    <h4>has successfully completed the online course</h4>
+    <br />
+    <u><h3>{{course.name}}</h3></u>
+    <h4>
+      bearing <br />Profession +{{course.profession_outcome}},Interest
+      +{{course.interest_outcome}} and Hobby +{{course.hobby_outcome}} credits.
+    </h4>
+
+    <div class="container" style="font-weight: 450">
+      <p class="my-5"></p>
+     
+      <br />
+<img src="{% static '/assets/images/signature.png' %}" alt="Logo" style="width:10rem"/>
+<br>
+<hr style="width:10rem">
+      (Hmangaiha)<br />
+      Director of E-shikha
+
+      <p class="my-5"></p>
+<p class="text-muted">Certificate no:{{certificate_id}}</p>
+    </div>
+  </div>
+</div>
+{% endblock content %}

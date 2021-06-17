@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load static %}
+{% block metatags %}
+<title>E learning</title>
+
+{% endblock %}
+{% block content %}
+<style type="text/css">
+	body {
+	font-family: 'Raleway', sans-serif;}
+	.head_text {
+		color: white;
+	}
+.h1, h4 {
+font-family: 'Raleway', sans-serif;
+}
+#mainhome {
+text-align: center; }
+
+
+.proundedbutton{
+    width:44px;
+    height:44px;
+    font-size:0.8rem;
+
+    border-radius:50rem;
+    background-color: #DD517F;
+    color:white;
+}
+.iroundedbutton{
+    width:44px;
+    height:44px;
+    font-size:0.8rem;
+    border-radius:50rem;
+    background-color:#556DC8;
+    color:white;
+}.hroundedbutton{
+     width:44px;
+    height:44px;
+    font-size:0.8rem;
+
+    border-radius:50rem;
+    background-color:  #461E52;
+    color:white;
+}
+</style>
+
+
+
+
+
+
+<div style="margin-top:-0.5rem;">
+                            {% comment %} <img src="{% static '/assets/images/pih.svg' %}" alt="PIH"> {% endcomment %}
+
+  <main role="main">
+
+    <div class="album py-5 bg-light">
+      <div class="container">
+{% if courselist %}
+        <div class="row">
+          {% for course in courselist %}
+
+          <div class="col-md-4">
+            <div class="card mb-4 box-shadow " style="border-radius:15px;">
+              <img class="card-img-top" src="{{course.courseimage.url}}" alt="Card image cap" style="border-top-left-radius:15px;border-top-right-radius:15px">
+              <div class="card-body">
+              <strong class="d-inline-block mb-2 text-primary">{{course.category}}</strong>
+
+                <p class="card-text"><h3>{{course.name}}</h3></p>
+                 <h6 style="color:#B8B8BC;padding-top:8px">{{ course.description}} </h6>
+
+                <div class="d-flex justify-content-between align-items-center">
+                  <p class="card-text text-muted h6"><span>{{ course.author.first_name }} {{ course.author.last_name }}</span> </p>
+
+<div class="flex py-3">
+    <button class="btn proundedbutton" >+{{course.profession_outcome}}</button>
+    <button class="btn iroundedbutton" >+{{course.interest_outcome}}</button>
+    <button class="btn hroundedbutton" >+{{course.hobby_outcome}}</button>
+    </div>
+
+                  <div class="btn-group">
+                    <!-- <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button> -->
+                    
+
+                  </div>
+                    <span><a href="{% url 'courseinfo' course.slug %}" class="btn btn-outline-primary">Read More →</a></span>
+
+                  <!-- <small class="text-muted">| {{ course.created_on}} </small> -->
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          {% endfor %}
+          </div>
+          {% if is_paginated %}
+<nav aria-label="Page navigation conatiner"></nav>
+<ul class="pagination justify-content-center">
+	{% if page_obj.has_previous %}
+	<li><a href="?page={{ page_obj.previous_page_number }}" class="btn btn-outline-info" style="font-family: sans-serif;">« PREV </a></li>
+	{% endif %}
+	{% if page_obj.has_next %}
+	<li><a href="?page={{ page_obj.next_page_number }}" class="btn btn-outline-info" style="font-family: sans-serif;"> NEXT »</a></li>
+
+	{% endif %}
+</ul>
+
+{% endif %}
+         
+{% else %}
+              <h3>No Available course please update your profile to see recommendations</h3>
+              {% endif %}
+  </main>
+
+<!-- 
+  <footer class="text-muted">
+    <div class="container">
+      <p class="float-right">
+        <a href="#">Back to top</a>
+      </p>
+      <p>Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
+      <p>New to Bootstrap? <a href="../../">Visit the homepage</a> or read our <a href="../../getting-started/">getting started guide</a>.</p>
+    </div>
+  </footer> -->
+</div>
+
+{%endblock%}
+
