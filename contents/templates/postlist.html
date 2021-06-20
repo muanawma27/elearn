@@ -36,7 +36,7 @@ text-align: center; }
 
     <div class="album py-5 bg-light">
       <div class="container">
-
+{% if postlist %}
         <div class="row">
           {% for post in postlist %}
 
@@ -76,6 +76,9 @@ text-align: center; }
           </div>
           {% endfor %}
           </div>
+          {% else %}
+          <h2>Please update your details</h2>
+          {% endif %}
           {% if is_paginated %}
 <nav aria-label="Page navigation conatiner"></nav>
 <ul class="pagination justify-content-center">
