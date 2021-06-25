@@ -36,7 +36,7 @@ def postlist(request):
             postlist = postlist|postlist2
             print(postlist)
         except:
-            postlist = None
+            postlist = Post.objects.all()
             return render(request,'postlist.html',{'postlist':postlist})
 
         
