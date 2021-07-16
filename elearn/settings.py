@@ -42,6 +42,8 @@ INSTALLED_APPS = [
 
     'contents',
     'account',
+        # 'google_translate',
+
 ]
 
 MIDDLEWARE = [
