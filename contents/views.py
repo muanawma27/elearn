@@ -262,3 +262,10 @@ def usercourseactivity(request,course,part_no):
         usercourse.save()
 
         return redirect(f'/course/{course.slug}/{part_no+1}')
+
+import random
+def explore(request):
+    p_length = Post.objects.all().count()
+    ran = [random.randrange(1,p_length,1) for i in range(int(p_length))]
+    postlist = Post.objects.filter(pk__in = ran)
+    return render(request,'explore.html',{'postlist':postlist})

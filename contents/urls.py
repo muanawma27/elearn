@@ -7,6 +7,8 @@ from .views import *
 urlpatterns = [
 	# home page
 	path('', views.postlist, name='postlist'),
+	path('explore', views.explore, name='explore'),
+
 	# route for posts
 	# path('<slug:slug>/', views.Postdetail.as_view(), name='postdetail'),
 	path('detail/<slug:slug>/', views.postdetail, name='postdetail'),
