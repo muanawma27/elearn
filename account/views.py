@@ -69,33 +69,63 @@ def profile(request):
     user = request.user
     profession_list = Ikigais.objects.all()
     profile = User.objects.get(username=user)
-    ikigais =UserIkigai.objects.get(user=user)
+    ikigais,ikigais2 =UserIkigai.objects.get_or_create(user=user)
     professions={}
     hobbies={}
     interests={}
-    for i in range(5):
-        if (i !=0) and (i < 6):
-            name=f'professsion_ikigai{i}'
-            values =f'profession_ikigai{i}_value'
-            values =getattr(ikigais,values)
-            p = getattr(ikigais,name)
-            if p != None:
-                professions[p]=values
+
+
+    if ikigais:
+        for i in range(5):
+            if (i !=0) and (i < 6):
+                name=f'professsion_ikigai{i}'
+                values =f'profession_ikigai{i}_value'
+                values =getattr(ikigais,values)
+                p = getattr(ikigais,name)
+                if p != None:
+                    professions[p]=values
              
             
-            name=f'interest_ikigai{i}'
-            values =f'interest_ikigai{i}_value'
-            values =getattr(ikigais,values)
-            p = getattr(ikigais,name)
-            if p != None:
-                interests[p]=values
+                name=f'interest_ikigai{i}'
+                values =f'interest_ikigai{i}_value'
+                values =getattr(ikigais,values)
+                p = getattr(ikigais,name)
+                if p != None:
+                    interests[p]=values
             
-            name=f'hobby_ikigai{i}'
-            values =f'hobby_ikigai{i}_value'
-            values =getattr(ikigais,values)
-            p = getattr(ikigais,name)
-            if p != None:
-                hobbies[p]=values
+                name=f'hobby_ikigai{i}'
+                values =f'hobby_ikigai{i}_value'
+                values =getattr(ikigais,values)
+                p = getattr(ikigais,name)
+                if p != None:
+                    hobbies[p]=values
+
+
+    else:
+
+        for i in range(5):
+            if (i !=0) and (i < 6):
+                name=f'professsion_ikigai{i}'
+                values =f'profession_ikigai{i}_value'
+                values =getattr(ikigais2,values)
+                p = getattr(ikigais2,name)
+                if p != None:
+                    professions[p]=values
+             
+            
+                name=f'interest_ikigai{i}'
+                values =f'interest_ikigai{i}_value'
+                values =getattr(ikigais2,values)
+                p = getattr(ikigais2,name)
+                if p != None:
+                    interests[p]=values
+            
+                name=f'hobby_ikigai{i}'
+                values =f'hobby_ikigai{i}_value'
+                values =getattr(ikigais2,values)
+                p = getattr(ikigais2,name)
+                if p != None:
+                    hobbies[p]=values
             
     print(professions,hobbies,interests)
 
@@ -121,7 +151,7 @@ def updateprofessions(request):
 
 def updateprofile(request):
     user = request.user
-    profile = Profile.objects.get(user=user)
+    profile,profile2 = Profile.objects.get_or_create(user=user)
     uservalues = user
 
     # form = ProfileForm(request.POST,instance=profile)
@@ -135,17 +165,26 @@ def updateprofile(request):
         print("ADDRESS",address)
         address = Location.objects.get(id = address)
         # profilephoto = request.FILES['profilephoto']
+
         u  = User.objects.get(id=user.id)
         u.first_name = first_name
         u.last_name = last_name
         u.save()
         print("first",u.username,u.first_name,u.last_name)
 
-        profile.age = age
-        profile.address= address
-        profile.gender = request.POST.get('gender')
+        if profile:
+            profile.age = age
+            profile.address= address
+            profile.gender = request.POST.get('gender')
 
-        profile.save()
+            profile.save()
+        else:
+            profile2.age = age
+            profile2.address= address
+            profile2.gender = request.POST.get('gender')
+
+            profile2.save()
+
 
         return redirect('/profile')
 
