@@ -101,7 +101,7 @@ def profile(request):
 
     return render(request,'profile.html',{'profile':profile,'ikigais':ikigais,'professions':professions,'hobbies':hobbies,'interests':interests,'professionlist':profession_list,})
 
-from .forms import ProfessionIkigaiForm,HobbyIkigaiForm,InterestIkigaiForm
+from .forms import ProfessionIkigaiForm,HobbyIkigaiForm,InterestIkigaiForm, ProfileForm
 from django.contrib import messages
 
 def updateprofessions(request):
@@ -118,6 +118,45 @@ def updateprofessions(request):
     # return render(request,'professionikigaiform.html',{'form':form,'professionlist':profession_list})
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def updateprofile(request):
+    user = request.user
+    profile = Profile.objects.get(user=user)
+    uservalues = user
+
+    # form = ProfileForm(request.POST,instance=profile)
+
+    if request.POST:
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+
+        age = request.POST.get('age')
+        address = request.POST.get('address')
+        print("ADDRESS",address)
+        address = Location.objects.get(id = address)
+        # profilephoto = request.FILES['profilephoto']
+        u  = User.objects.get(id=user.id)
+        u.first_name = first_name
+        u.last_name = last_name
+        u.save()
+        print("first",u.username,u.first_name,u.last_name)
+
+        profile.age = age
+        profile.address= address
+        profile.gender = request.POST.get('gender')
+
+        profile.save()
+
+        return redirect('/profile')
+
+    # if form.is_valid():
+    #     form.save()
+    #     messages.success(request,'Profile Updated')
+    # else:
+    #     form = ProfileForm()
+
+    # return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    return render(request,'updateprofile.html',{'profile':profile,'uservalues':uservalues})
 
 
 def updatehobbies(request):

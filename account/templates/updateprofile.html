@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% block content %}
+
+{% comment %} <form action="/updateprofile" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit">
+</form> {% endcomment %}
+<div class="container">
+<h2 class="text-center my-2 mt-4">Update profile details</h2>
+<div class=" d-flex flex-column p-2 justify-content-center align-items-center flex-wrap">
+
+<form action="/updateprofile/" method="post" class="form-group ">
+    {% csrf_token %}
+  
+<input type="text" name="first_name" value="{{uservalues.first_name}}" class="form-control my-2" placeholder="First name">
+<input type="text" name="last_name" value="{{uservalues.last_name}}"  class="form-control my-2" placeholder="last name" >
+<input type="number" name="age"  value="{{profile.age}}"  class="form-control my-2" placeholder="Age" >
+{% comment %} address
+ {% endcomment %}
+<label for="id_address">Address:</label></th><td><select name="address" required id="id_address" class="form-control " placeholder="First name">
+  <option value="{{profile.address.id}}" selected>{{profile.address}}</option>
+  <option value="2">AIZAWL</option>
+
+</select>
+
+<label for="id_gender">Gender:</label><select name="gender" required id="id_gender" class="form-control " placeholder="First name">
+  <option value="{{profile.gender}}" selected>{{profile.gender.value}}</option>
+
+  <option value="1">Male</option>
+
+  <option value="2">Female</option>
+
+</select>
+
+{% comment %} 
+</select></td></tr>
+<tr><th><label for="id_age">Age:</label></th><td><input type="number" name="age" required id="id_age"></td></tr>
+<tr><th><label for="id_address">Address:</label></th><td><select name="address" required id="id_address">
+  <option value="" selected>---------</option>
+
+  <option value="2">AIZAWL</option>
+
+</select></td></tr>
+<tr><th><label for="id_gender">Gender:</label></th><td><select name="gender" required id="id_gender">
+  <option value="" selected>---------</option>
+
+  <option value="1">Male</option>
+
+  <option value="2">Female</option>
+
+</select></td></tr> {% endcomment %}
+{% comment %} <tr><th><label for="id_profilephoto">Profilephoto:</label></th><td><input type="file" name="profilephoto" accept="image/*" id="id_profilephoto"></td></tr> {% endcomment %}
+    <input type="submit" class="btn btn-primary btn-block" value="Submit">
+</form>
+</div>
+</div>
+
+
+{% endblock content%}

@@ -8,6 +8,8 @@ urlpatterns = [
     path('dashboard/',dashboard,name='dashboard'),
     path('profile/',profile,name='profile'),
 
+    path('updateprofile/',updateprofile,name="updateprofile"),
+
 
     path('updateprofessions/',updateprofessions,name="update_professions"),
     path('updatehobbies/',updatehobbies,name="updatehobbies"),

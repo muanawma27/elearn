@@ -38,3 +38,9 @@ class HobbyIkigaiForm(ModelForm):
         'hobby_ikigai4','hobby_ikigai4_value',
         'hobby_ikigai5','hobby_ikigai5_value',
         ]
+
+
+class ProfileForm(ModelForm):
+    class Meta:
+        model=Profile
+        fields= '__all__'

@@ -96,7 +96,7 @@ class Profile(models.Model):
     age = models.IntegerField(null=True)
     address = models.ForeignKey(Location,null=True,on_delete=models.CASCADE)
     gender = models.CharField(max_length=200,null=True,choices=GENDER)
-    profilephoto = models.ImageField(upload_to = 'profilephoto/',null=True,blank=True)
+    profilephoto = models.ImageField(upload_to = 'profilephoto/',null=True,blank=True,default='default.jpg')
     def __str__(self):
         return self.user.username
 
