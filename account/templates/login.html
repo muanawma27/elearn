@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<style>
+input{
+  border: 2px solid rgba(0,0,100,0.2);
+    border-radius:5px;
+    padding:2px;
+  
+}
+
+</style>
+<div class="container" style="padding:2rem 0 2rem 0;margin-left:40vw">
+  <h2>Login</h2>
+  <form method="post" class="form-group">
+{% csrf_token %}    
+      <p>
+        <strong><label for="id_username">Username:</label></strong><br>
+        <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username" autofocus required id="id_username">
+        
+        
+        
+      </p>
+    
+      <p>
+        <strong><label for="id_password1">Password:</label></strong><br>
+        <input type="password" name="password" autocomplete="new-password" required id="id_password1">
+            
+      </p>
+   
+    <p style="margin:2rem"></p>
+    <button type="submit" class="btn btn-lg btn-primary " style="width:13rem">Login</button>
+  </form>
+  </div>
+  {% endblock content %}
