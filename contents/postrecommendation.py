@@ -154,8 +154,8 @@ def User_item_score(user, item):
 
 
 # %%
-score = User_item_score(1,1)
-print("score (u,i) is",score)
+# score = User_item_score(2,2)
+# print("score (u,i) is",score)
 
 
 # %%

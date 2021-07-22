@@ -24,21 +24,24 @@ def postlist(request):
     
     if request.user.is_authenticated:
         print(request.user.id)
+        k = True
+        k = False
+        if k:
+            try:
 
-        try:
-
-            post_list = recommendation(userid=request.user.id)
-            print(post_list)
-            # postlist =Post.objects.filter(status=1).order_by('-created_on')
-            postlist =Post.objects.filter(title__in = post_list).order_by('-created_on')
-            print(postlist)
-            postlist2 = Post.objects.all().exclude(title__in =postlist)
-            postlist = postlist|postlist2
-            print(postlist)
-        except:
+                post_list = recommendation(userid=request.user.id)
+                print(post_list)
+                # postlist =Post.objects.filter(status=1).order_by('-created_on')
+                postlist =Post.objects.filter(title__in = post_list).order_by('-created_on')
+                print(postlist)
+                postlist2 = Post.objects.all().exclude(title__in =postlist)
+                postlist = postlist|postlist2
+                print(postlist)
+            except:
+                postlist = Post.objects.all()
+                return render(request,'postlist.html',{'postlist':postlist})
+        else:
             postlist = Post.objects.all()
-            return render(request,'postlist.html',{'postlist':postlist})
-
         
         return render(request,'postlist.html',{'postlist':postlist})
 
